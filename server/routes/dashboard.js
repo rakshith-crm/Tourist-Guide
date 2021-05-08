@@ -54,7 +54,7 @@ router.post('/addpost', authorization, async(req,res)=>{
 });
 router.get('/alllocations', authorization, async(req,res)=>{
     try {
-        const query = await pool.query('select table1.*,table2.count from (select locations.location_id, location_name, latitude, longitude, description, city, photo, visit_during, username, liked from locations left join users on users.user_id=locations.added_by left outer join ratings on ratings.location_id = locations.location_id and ratings.user_id=cast($1 as uuid)) as table1 inner join (select location_id,count(*) from ratings group by location_id) as table2 on table1.location_id = table2.location_id',
+        const query = await pool.query('select table1.*,table2.count from (select locations.location_id, location_name, latitude, longitude, description, city, photo, visit_during, username, liked from locations left join users on users.user_id=locations.added_by left outer join ratings on ratings.location_id = locations.location_id and ratings.user_id=cast($1 as uuid)) as table1 left join (select location_id,count(*) from ratings group by location_id) as table2 on table1.location_id = table2.location_id',
         [req.user]);
         res.json(query.rows);
     } catch (error) {

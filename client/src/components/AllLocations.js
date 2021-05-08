@@ -1,7 +1,34 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { FcLike as Like, FcLikePlaceholder as Dislike} from 'react-icons/fc';
 
 const AllLocations = ()=>{
     const [AllLocations, setLocations] = useState([]);
+    const LikeIt = async(location_id)=>{
+        try {
+            const query = await fetch(`http://localhost:5000/ratings/${location_id}`,{
+                method : 'POST',
+                headers : {token : localStorage.token}
+            });
+            const response = await query.json();
+            console.log(response);
+            window.location.reload();
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+    const DislikeIt = async(location_id)=>{
+        try {
+            const query = await fetch(`http://localhost:5000/ratings/${location_id}`,{
+                method : 'DELETE',
+                headers : {token : localStorage.token}
+            });
+            const response = await query.json();
+            console.log(response);
+            window.location.reload();
+        } catch (error) {
+            console.log(error);
+        }
+    };
     const GetAllLocations = async()=>{
         try {
             const query = await fetch('http://localhost:5000/dashboard/alllocations',{
@@ -22,39 +49,48 @@ const AllLocations = ()=>{
 <Fragment>
     <h1 style={{textAlign : 'center'}} className='mt-5'>All Locations</h1><hr />
     <div className=''>
-<div class="row" style={{textAlign : 'center'}}>
+<div className="row" style={{textAlign : 'center'}}>
 {AllLocations.map(location => (
-        <div class="col-md-4 card p-3">
+        <div className="col-md-4 card p-3" key={location.location_id}>
         <div style={{display : 'flex'}}>
             <p style={{display : 'flex', justifyContent : 'flex-start', width : '15rem'}} className='ml-3 mr-1 badge-info rounded p-1 text-wrap text-monospace'>Added by :</p>
             <p style={{display : 'flex', justifyContent : 'flex-end', width : '30rem'}} className='mr-3 badge-light rounded p-1 text-wrap text-monospace'>username@ {location.username}</p>
         </div>
-        <div class='container'>
-            <img src = {location.photo} alt="None" style={{width : '80%'}} className='rounded' />
+        <div className='container'>
+            <img src = {location.photo} alt="None" style={{width : '80%', height : '200px'}} className='rounded' />
             <hr style={{width : '100%'}}></hr>
-            <ul class="list-group mb-2">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <h5>Location Name</h5>
-                <text>{location.location_name}</text>
+            <ul className="list-group mb-2">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+                <u><h5>Location Name</h5></u>
+                <b><i>{location.location_name}</i></b>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
                 City
-                <text>{location.city}</text>
+                <i>{location.city}</i>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
                 Visit During
-                <text>{location.visit_during}</text>
+                <i>{location.visit_during}</i>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
                 Latitude
-                <text>{location.latitude}</text>
+                <i>{location.latitude}</i>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
                 Longitude
-                <text>{location.longitude}</text>
+                <i>{location.longitude}</i>
+            </li>
+            
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+                Like
+                {location.liked !== null ? <Like size='30px' onClick={()=>DislikeIt(location.location_id)}/> : <Dislike size='30px' onClick={()=>LikeIt(location.location_id)} />}
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+                Liked by
+                <i>{location.count}</i>
             </li>
             </ul>
-            <h3>About</h3>
+            <h3 className='mt-3'>About</h3>
                 <p style={{textAlign : 'justify'}}>{location.description}</p>
         </div>
     </div>

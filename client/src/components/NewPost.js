@@ -22,11 +22,12 @@ const NewPost = ()=>{
             formData.append('description', description);
             formData.append('city', city);
             formData.append('visit_during', visit_during);
-            const query = await axios.post('http://localhost:5000/dashboard/addpost', formData, {
+            const query = await axios.post('/dashboard/addpost', formData, {
                 headers : {token : localStorage.token , 'Content-Type' : 'multipart/form-data'},
             });
             const response = await query.data;
             console.log(response);
+            window.location.reload();
         } catch (error) {
             console.log(error.message);
         }

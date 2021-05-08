@@ -8,7 +8,7 @@ const Dashboard = ({setAuth})=>{
     const [username, setUsername] = useState('');
     const GetDetails = async ()=>{
         try {
-            const query = await fetch('http://localhost:5000/dashboard',{
+            const query = await fetch('/dashboard',{
                 method: 'GET',
                 headers : {token : localStorage.token}
             })
@@ -25,7 +25,7 @@ const Dashboard = ({setAuth})=>{
     return(
 <Fragment>
 <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-  <a className="navbar-brand" href='http://localhost:3000/dashboard'>Home</a>
+  <b><a className="navbar-brand" href='http://localhost:3000/dashboard'>Home</a></b>
 
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"></span>
@@ -34,7 +34,7 @@ const Dashboard = ({setAuth})=>{
 
   <form className="form-inline my-2 my-lg-0"  style={{display : 'flex', justifyContent : 'flex-end', width : '100%', padding : '0px'}}>
   <User size='30px' color='white' className='mr-1 mb-1' />
-  <h4 style={{textAlign : 'center', color : 'white'}} className='mr-3 mt-1'>Welcome {username}</h4>
+  <i><h4 style={{textAlign : 'center', color : 'white'}} className='mr-3 mt-1'>{username}</h4></i>
 
       <button className="btn btn-danger my-sm-0"  type="submit" onClick={()=>setAuth(false)}>Logout</button>
     </form>

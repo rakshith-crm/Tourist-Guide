@@ -8,7 +8,7 @@ const Register = ({setAuth})=>{
         e.preventDefault();
         try {
             const body = {username, email, password};
-            const query = await fetch('http://localhost:5000/auth/register',{
+            const query = await fetch('/auth/register',{
                 method : 'POST',
                 headers : {'Content-Type' : 'application/json'},
                 body : JSON.stringify(body)

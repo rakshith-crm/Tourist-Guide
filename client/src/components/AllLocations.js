@@ -5,7 +5,7 @@ const AllLocations = ()=>{
     const [AllLocations, setLocations] = useState([]);
     const LikeIt = async(location_id)=>{
         try {
-            const query = await fetch(`http://localhost:5000/ratings/${location_id}`,{
+            const query = await fetch(`/ratings/${location_id}`,{
                 method : 'POST',
                 headers : {token : localStorage.token}
             });
@@ -18,7 +18,7 @@ const AllLocations = ()=>{
     };
     const DislikeIt = async(location_id)=>{
         try {
-            const query = await fetch(`http://localhost:5000/ratings/${location_id}`,{
+            const query = await fetch(`/ratings/${location_id}`,{
                 method : 'DELETE',
                 headers : {token : localStorage.token}
             });
